@@ -34,6 +34,18 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
+Должны быть 5 контейнеров:
+
+- payment-postgres (healthy)
+
+- payment-rabbitmq (healthy)
+
+- payment-api
+
+- payment-publisher
+
+- payment-consumer
+
 Доступные сервисы:
 
 - API + Swagger: http://localhost:8000/docs
@@ -48,10 +60,15 @@ docker compose up -d --build
 docker compose down
 ```
 
-Остановить и удалить данные:
+Если при запуске возникает ошибка PRECONDITION_FAILED про очередь payments.new - это значит, что очередь уже существует с другими параметрами (например, была создана раньше без dead-letter). 
+
+RabbitMQ не позволяет изменить параметры существующей очереди.
+
+Решение - полная очистка данных и пересборка:
 
 ```
 docker compose down -v
+docker compose up -d --build
 ```
 
 ## Как это работает
