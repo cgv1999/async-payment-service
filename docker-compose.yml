@@ -52,6 +52,7 @@ services:
       - ./app:/app/app
       - ./alembic:/app/alembic
       - ./alembic.ini:/app/alembic.ini
+    restart: unless-stopped
 
   publisher:
     build:
@@ -68,6 +69,7 @@ services:
         condition: service_healthy
     volumes:
       - ./app:/app/app
+    restart: unless-stopped
 
   consumer:
     build:
@@ -84,6 +86,7 @@ services:
         condition: service_healthy
     volumes:
       - ./app:/app/app
+    restart: unless-stopped
 
 volumes:
   postgres_data:
